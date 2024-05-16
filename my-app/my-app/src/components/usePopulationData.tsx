@@ -1,38 +1,39 @@
 import useSWR from "swr";
 import { POPULATION_API_URL } from "@/pages/api/PrefecturesList";
 import { fetcher } from "@/lib/fetcher";
-import { PopulationResponse, PopulationData } from "@/types";
+import { PopulationData } from "@/types";
 
 export const usePopulationData = (
   prefCodes: number[],
   populationType: string
 ) => {
-  const swrResponses = prefCodes.map((prefCode) => {
-    const { data, error } = useSWR<PopulationResponse>(
-      POPULATION_API_URL(prefCode),
-      fetcher
+  const key = prefCodes.length
+    ? `/api/population?codes=${prefCodes.join(",")}&type=${populationType}`
+    : null;
+
+  const fetchPopulationData = async () => {
+    if (!key) return [];
+
+    const requests = prefCodes.map((prefCode) =>
+      fetcher(POPULATION_API_URL(prefCode))
     );
-    return { data, error, prefCode };
-  });
+    const responses = await Promise.all(requests);
+    const combinedData: Record<number, PopulationData[]> = {};
 
-  const isLoading = swrResponses.some((res) => !res.data && !res.error);
-  const error = swrResponses.find((res) => res.error)?.error;
-
-  const combinedData: Array<PopulationData & { prefCode: number }> = [];
-  if (!isLoading && !error) {
-    swrResponses.forEach(({ data, prefCode }) => {
-      if (data && data.result && data.result.data) {
-        const populationData = data.result.data.find(
-          (d) => d.label === populationType
-        )?.data;
-        if (populationData) {
-          populationData.forEach((item) => {
-            combinedData.push({ ...item, prefCode });
-          });
-        }
+    responses.forEach((data, index) => {
+      const prefCode = prefCodes[index];
+      const populationData = data.result.data.find(
+        (d: { label: string }) => d.label === populationType
+      )?.data;
+      if (populationData) {
+        combinedData[prefCode] = populationData;
       }
     });
-  }
 
-  return { combinedData, isLoading, error };
+    return combinedData;
+  };
+
+  const { data, error } = useSWR(key, fetchPopulationData);
+
+  return { combinedData: data, isLoading: !error && !data, error };
 };

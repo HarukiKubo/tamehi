@@ -1,19 +1,26 @@
 import React, { useState } from "react";
 import Head from "next/head";
 import styles from "@/styles/Home.module.css";
-import PrefCheckbox from "@/components/PrefCheckbox";
+import PrefCheckbox from "@/components/prefCheckbox";
 import PopulationChart from "@/components/showPopulationChart";
+import PopulationTypeSelector from "@/components/populationTypeSelector";
 
 export default function Home() {
-  const [selectedPrefCodes, setSelectedPrefCodes] = useState<number[]>([]);
+  const [selectedPrefs, setSelectedPrefs] = useState<
+    { code: number; name: string }[]
+  >([]);
   const [populationType, setPopulationType] = useState("総人口");
 
-  const handlePrefectureChange = (prefCode: number, checked: boolean) => {
-    if (checked) {
-      setSelectedPrefCodes((prev) => [...prev, prefCode]);
-    } else {
-      setSelectedPrefCodes((prev) => prev.filter((code) => code !== prefCode));
-    }
+  const handlePrefectureChange = (
+    selectedPrefs: { code: number; name: string }[]
+  ) => {
+    setSelectedPrefs(selectedPrefs);
+  };
+
+  const handlePopulationTypeChange = (
+    event: React.ChangeEvent<HTMLInputElement>
+  ) => {
+    setPopulationType(event.target.value);
   };
 
   return (
@@ -27,51 +34,13 @@ export default function Home() {
       <h1>都道府県</h1>
       <main className={styles.main}>
         <PrefCheckbox onChange={handlePrefectureChange} />
-        <div className={styles.populationTypeSelector}>
-          <label>
-            <input
-              type="radio"
-              name="populationType"
-              value="総人口"
-              checked={populationType === "総人口"}
-              onChange={() => setPopulationType("総人口")}
-            />
-            総人口
-          </label>
-          <label>
-            <input
-              type="radio"
-              name="populationType"
-              value="年少人口"
-              checked={populationType === "年少人口"}
-              onChange={() => setPopulationType("年少人口")}
-            />
-            年少人口
-          </label>
-          <label>
-            <input
-              type="radio"
-              name="populationType"
-              value="生産年齢人口"
-              checked={populationType === "生産年齢人口"}
-              onChange={() => setPopulationType("生産年齢人口")}
-            />
-            生産年齢人口
-          </label>
-          <label>
-            <input
-              type="radio"
-              name="populationType"
-              value="老年人口"
-              checked={populationType === "老年人口"}
-              onChange={() => setPopulationType("老年人口")}
-            />
-            老年人口
-          </label>
-        </div>
-        {selectedPrefCodes.length > 0 && (
+        <PopulationTypeSelector
+          populationType={populationType}
+          onChange={handlePopulationTypeChange}
+        />
+        {selectedPrefs.length > 0 && (
           <PopulationChart
-            prefCodes={selectedPrefCodes}
+            selectedPrefs={selectedPrefs}
             populationType={populationType}
           />
         )}
