@@ -3,7 +3,7 @@ import useSWR from "swr";
 import { POPULATION_API_URL } from "@/pages/api/PrefecturesList";
 import { fetcher } from "../lib/fetcher";
 import { PopulationResponse } from "@/types";
-import styles from "../styles/populationChart.module.css";
+import styles from "../styles/PopulationChart.module.css";
 
 import {
   LineChart,
@@ -22,40 +22,34 @@ type Props = {
 };
 
 const PopulationChart: React.FC<Props> = ({ prefCodes, populationType }) => {
-  const {
-    data: populationData,
-    error,
-    isLoading,
-  } = useSWR<PopulationResponse[]>(
-    () => prefCodes.map((prefCode) => POPULATION_API_URL(prefCode)),
-    fetcher,
+  const fetchPopulationData = (url: string) => fetcher(url);
+  const { data, error, isLoading } = useSWR(
+    () => prefCodes.map((code) => POPULATION_API_URL(code)),
+    fetchPopulationData,
     { revalidateOnFocus: false }
   );
 
-  console.log("populationType:", populationType);
-
-  if (populationData) {
-    console.log("populationData:", populationData);
-  }
-
   if (error) return <div>エラーが発生しました。</div>;
-  if (isLoading || !populationData) return <div>Now loading...</div>; // populationDataがundefinedまたはnullの場合もloadingを表示
+  if (isLoading) return <div>Now loading...</div>;
 
-  const combinedData = prefCodes
-    .map((prefCode, index) => {
-      const prefData =
-        populationData[index]?.data
-          .find((d) => d.label === populationType)
-          ?.data.map((item) => ({
-            year: item.year,
-            value: item.value,
-            prefCode,
-          })) || [];
-      return prefData;
-    })
-    .flat();
+  const populationDataArray = Array.isArray(data) ? data : [data];
 
-  console.log("combinednData:", combinedData);
+  // 都道府県ごとの人口データを結合する
+  const combinedData = populationDataArray
+    .filter((populationResponse) => populationResponse !== undefined) // undefinedを除外
+    .map((populationResponse, index) =>
+      populationResponse.data
+        .find((d) => d.label === populationType)
+        ?.data.map((item) => ({
+          year: item.year,
+          value: item.value,
+          prefCode: prefCodes[index],
+        }))
+    )
+    .flat()
+    .filter((item) => item !== undefined); // undefinedを除外
+
+  console.log("combinedData: ", combinedData);
 
   return (
     <div className={styles.chartContainer}>
