@@ -1,6 +1,5 @@
 import React, { useState } from "react";
 import Head from "next/head";
-import styles from "@/styles/Home.module.css";
 import PrefCheckbox from "@/components/prefCheckbox";
 import PopulationChart from "@/components/showPopulationChart";
 import PopulationTypeSelector from "@/components/populationTypeSelector";
@@ -31,8 +30,8 @@ export default function Home() {
         <meta name="viewport" content="width=device-width, initial-scale=1" />
         <link rel="icon" href="/favicon.ico" />
       </Head>
-      <h1>都道府県</h1>
-      <main className={styles.main}>
+      <h1 className="text-2xl font-bold text-center my-4">都道府県</h1>
+      <main className="flex flex-col items-center justify-center min-h-screen py-4">
         <PrefCheckbox onChange={handlePrefectureChange} />
         <PopulationTypeSelector
           populationType={populationType}

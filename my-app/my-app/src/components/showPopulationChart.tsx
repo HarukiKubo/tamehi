@@ -1,6 +1,5 @@
 import React from "react";
 import { usePopulationData } from "./usePopulationData";
-import styles from "../styles/PopulationChart.module.css";
 import {
   LineChart,
   Line,
@@ -32,17 +31,16 @@ const PopulationChart: React.FC<Props> = ({
 
   console.log("combinedData:", combinedData); // デバッグ出力
 
-  // combinedDataが未定義の場合の対策
   if (!combinedData) return <div>データがありません。</div>;
 
-  // 年ごとのデータをマージし、14ポイントに制限
   const years = Array.from(
     new Set(
       Object.values(combinedData)
         .flat()
         .map((d) => d.year)
     )
-  ).slice(0, 14); // 14ポイントに制限
+  ).slice(0, 14); // 表示する西暦を2025年までに変更
+
   const mergedData = years.map((year) => {
     const data: Record<string, number | string> = { year };
     selectedPrefs.forEach((pref) => {
@@ -57,12 +55,12 @@ const PopulationChart: React.FC<Props> = ({
   console.log("mergedData:", mergedData); // デバッグ出力
 
   return (
-    <div className={styles.chartContainer}>
+    <div>
       <ResponsiveContainer width="100%" height={400}>
         <LineChart data={mergedData}>
           <CartesianGrid strokeDasharray="3 3" />
-          <XAxis dataKey="year" />
-          <YAxis className={styles.yAxis} />
+          <XAxis dataKey="year" label={{ value: "年度" }} />
+          <YAxis label={{ value: "人口" }} />
           <Tooltip />
           <Legend />
           {selectedPrefs.map((pref, index) => (

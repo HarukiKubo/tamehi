@@ -1,6 +1,5 @@
 import React, { useState } from "react";
 import useSWR from "swr";
-import styles from "../styles/PrefCheckbox.module.css";
 import { PREFECTURES_API_URL } from "@/pages/api/PrefecturesList";
 import { fetcher } from "@/lib/fetcher";
 import { Prefectures } from "@/types";
@@ -43,7 +42,7 @@ const PrefCheckbox: React.FC<Props> = ({ onChange }) => {
   return (
     <div>
       <form>
-        <div className={styles.checkboxContainer}>
+        <div>
           {data.result.map((prefecture) => (
             <label key={prefecture.prefCode}>
               <input
