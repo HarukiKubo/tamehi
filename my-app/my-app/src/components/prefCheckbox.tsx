@@ -9,7 +9,7 @@ type Props = {
 };
 
 const PrefCheckbox: React.FC<Props> = ({ onChange }) => {
-  const { data, error, isLoading } = useSWR<{
+  const { data, error } = useSWR<{
     message: string | null;
     result: Prefectures[];
   }>(PREFECTURES_API_URL, fetcher);
@@ -20,12 +20,7 @@ const PrefCheckbox: React.FC<Props> = ({ onChange }) => {
   console.log("PrefCheckbox data:", data); // デバッグ出力
 
   if (error) return <div>エラーが発生しました。</div>;
-  if (isLoading) return <div>Now loading...</div>;
-
-  // data.resultが配列であることを確認
-  if (!data || !Array.isArray(data.result)) {
-    return <div>データ形式が不正です。</div>;
-  }
+  if (!data) return <div>Now loading...</div>; // dataがundifinedでNow loadingを出力
 
   const handleCheckboxChange = (
     prefCode: number,

@@ -55,14 +55,27 @@ const PopulationChart: React.FC<Props> = ({
   console.log("mergedData:", mergedData); // デバッグ出力
 
   return (
-    <div>
+    <div className="">
       <ResponsiveContainer width="100%" height={400}>
-        <LineChart data={mergedData}>
+        <LineChart
+          data={mergedData}
+          margin={{ top: 30, right: 50, left: 50, bottom: 20 }}
+        >
           <CartesianGrid strokeDasharray="3 3" />
-          <XAxis dataKey="year" label={{ value: "年度" }} />
-          <YAxis label={{ value: "人口" }} />
+          <XAxis
+            dataKey="year"
+            label={{
+              value: "年度",
+              position: "insideBottomRight",
+              offset: -10,
+            }}
+          />
+          <YAxis
+            padding={{ top: 25 }}
+            label={{ value: "人口", position: "insideTopLeft" }}
+          />
           <Tooltip />
-          <Legend />
+          <Legend verticalAlign="top" align="right" />
           {selectedPrefs.map((pref, index) => (
             <Line
               key={pref.code}
