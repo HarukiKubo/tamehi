@@ -55,7 +55,7 @@ const PopulationChart: React.FC<Props> = ({
   console.log("mergedData:", mergedData); // デバッグ出力
 
   return (
-    <div className="">
+    <div className="w-full h-[400px] mb-5">
       <ResponsiveContainer width="100%" height={400}>
         <LineChart
           data={mergedData}
@@ -71,8 +71,9 @@ const PopulationChart: React.FC<Props> = ({
             }}
           />
           <YAxis
+            className="w-20"
             padding={{ top: 25 }}
-            label={{ value: "人口", position: "insideTopLeft" }}
+            label={{ value: "人口数", position: "insideTopLeft" }}
           />
           <Tooltip />
           <Legend verticalAlign="top" align="right" />

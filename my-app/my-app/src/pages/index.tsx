@@ -30,19 +30,21 @@ export default function Home() {
         <meta name="viewport" content="width=device-width, initial-scale=1" />
         <link rel="icon" href="/favicon.ico" />
       </Head>
-      <h1 className="text-2xl font-bold text-center my-4">都道府県</h1>
       <main className="flex flex-col items-center justify-center min-h-screen py-4">
-        <PrefCheckbox onChange={handlePrefectureChange} />
-        <PopulationTypeSelector
-          populationType={populationType}
-          onChange={handlePopulationTypeChange}
-        />
-        {selectedPrefs.length > 0 && (
-          <PopulationChart
-            selectedPrefs={selectedPrefs}
+        <div className="w-full max-w-4xl p-4 ">
+          <h1 className="text-3xl pb-2 mb-4">都道府県</h1>
+          <PrefCheckbox onChange={handlePrefectureChange} />
+          <PopulationTypeSelector
             populationType={populationType}
+            onChange={handlePopulationTypeChange}
           />
-        )}
+          {selectedPrefs.length > 0 && (
+            <PopulationChart
+              selectedPrefs={selectedPrefs}
+              populationType={populationType}
+            />
+          )}
+        </div>
       </main>
     </>
   );
