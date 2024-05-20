@@ -10,8 +10,8 @@ const PopulationTypeSelector: React.FC<PopulationTypeSelectorProps> = ({
   onChange,
 }) => {
   return (
-    <div>
-      <label>
+    <div className="flex justify-center space-x-2 my-4">
+      <label className="flex items-center space-x-2">
         <input
           type="radio"
           name="populationType"
@@ -19,9 +19,9 @@ const PopulationTypeSelector: React.FC<PopulationTypeSelectorProps> = ({
           checked={populationType === "総人口"}
           onChange={onChange}
         />
-        総人口
+        <span>総人口</span>
       </label>
-      <label>
+      <label className="flex items-center space-x-1">
         <input
           type="radio"
           name="populationType"
@@ -29,9 +29,9 @@ const PopulationTypeSelector: React.FC<PopulationTypeSelectorProps> = ({
           checked={populationType === "年少人口"}
           onChange={onChange}
         />
-        年少人口
+        <span>年少人口</span>
       </label>
-      <label>
+      <label className="flex items-center space-x-1">
         <input
           type="radio"
           name="populationType"
@@ -39,9 +39,9 @@ const PopulationTypeSelector: React.FC<PopulationTypeSelectorProps> = ({
           checked={populationType === "生産年齢人口"}
           onChange={onChange}
         />
-        生産年齢人口
+        <span>生産年齢人口</span>
       </label>
-      <label>
+      <label className="flex items-center space-x-1">
         <input
           type="radio"
           name="populationType"
@@ -49,7 +49,7 @@ const PopulationTypeSelector: React.FC<PopulationTypeSelectorProps> = ({
           checked={populationType === "老年人口"}
           onChange={onChange}
         />
-        老年人口
+        <span>老年人口</span>
       </label>
     </div>
   );
