@@ -18,7 +18,7 @@
 
 ## 動作環境
 
-- Node.js: バージョン 14.x 以上
+- Node.js: v20.13.1
 - npm
 
 ## 環境構築方式
@@ -27,12 +27,6 @@
 
    ```sh
    npm install
-   ```
-
-   または
-
-   ```sh
-   yarn install
    ```
 
 2. 環境変数ファイルを作成します。
@@ -47,12 +41,6 @@
 
    ```sh
    npm run dev
-   ```
-
-   または
-
-   ```sh
-   yarn dev
    ```
 
 4. ブラウザで `http://localhost:3000` を開きます。

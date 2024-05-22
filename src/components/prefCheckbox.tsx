@@ -1,12 +1,13 @@
 import React, { useState } from "react";
 import useSWR from "swr";
-import { PREFECTURES_API_URL } from "@/pages/api/PrefecturesList";
 import { fetcher } from "@/lib/fetcher";
 import { Prefectures } from "@/types";
 
 type Props = {
   onChange: (selectedPrefs: { code: number; name: string }[]) => void;
 };
+
+const PREFECTURES_API_URL = process.env.NEXT_PUBLIC_PREFECTURES_API_URL;
 
 const PrefCheckbox: React.FC<Props> = ({ onChange }) => {
   const { data, error } = useSWR<{

@@ -1,7 +1,9 @@
 import useSWR from "swr";
-import { POPULATION_API_URL } from "@/pages/api/PrefecturesList";
 import { fetcher } from "@/lib/fetcher";
 import { PopulationData } from "@/types";
+
+const POPULATION_API_URL = (prefCode: number) =>
+  `${process.env.NEXT_PUBLIC_POPULATION_API_URL}?prefCode=${prefCode}`;
 
 export const usePopulationData = (
   prefCodes: number[],
