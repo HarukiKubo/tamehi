@@ -1,4 +1,6 @@
-import React, { useState } from "react";
+// src/components/prefCheckbox.tsx
+
+import React, { useEffect, useState } from "react";
 import useSWR from "swr";
 import { fetcher } from "@/lib/fetcher";
 import { Prefectures } from "@/types";
@@ -19,6 +21,10 @@ const PrefCheckbox: React.FC<Props> = ({ onChange }) => {
   >([]);
 
   console.log("PrefCheckbox data:", data); // デバッグ出力
+
+  useEffect(() => {
+    console.log("useEffect triggered:", data);
+  }, [data]);
 
   if (error) return <div>エラーが発生しました。</div>;
   if (!data) return <div>Now loading...</div>;
