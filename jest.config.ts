@@ -1,14 +1,18 @@
 import type { Config } from "jest";
-import nextJest from "next/jest.js";
+import nextJest from "next/jest";
 
 const createJestConfig = nextJest({
   dir: "./",
 });
 
-const config: Config = {
+const customJestConfig: Config = {
   coverageProvider: "v8",
-  testEnvironment: "jsdom",
-  // その他のセットアップオプション
+  testEnvironment: "jest-environment-jsdom",
+  setupFilesAfterEnv: ["<rootDir>/jest.setup.ts"],
+  moduleNameMapper: {
+    "^@/(.*)$": "<rootDir>/src/$1",
+  },
+  testPathIgnorePatterns: ["/node_modules/", "/.next/"],
 };
 
-export default createJestConfig(config);
+export default createJestConfig(customJestConfig);
