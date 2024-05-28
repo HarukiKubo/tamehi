@@ -1,7 +1,7 @@
 /** @type {import('next').NextConfig} */
 const nextConfig = {
   reactStrictMode: true,
-  // その他の設定があればここに記載します
+  distDir: "out",
 };
 
 module.exports = nextConfig;
