@@ -1,6 +1,3 @@
-/** @type {import('next').NextConfig} */
-const nextConfig = {
-  reactStrictMode: true,
+module.exports = {
+  target: "serverless", // または 'experimental-serverless-trace' を使用する場合もあります
 };
-
-export default nextConfig;
