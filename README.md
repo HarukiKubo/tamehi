@@ -21,6 +21,9 @@
 - Node.js: v20.13.1
 - npm
 
+## ホスティング先URL
+- https://tamehi.vercel.app/
+
 ## 環境構築方式
 
 1. 依存関係をインストールします。
@@ -35,6 +38,8 @@
 
    ```plaintext
    NEXT_PUBLIC_RESAS_API_KEY=your_api_key_here
+   NEXT_PUBLIC_PREFECTURES_API_URL=your_prefectures_api_url_here
+   NEXT_PUBLIC_POPULATION_API_URL=your_population_api_url_here
    ```
 
 3. 開発サーバーを起動します。
